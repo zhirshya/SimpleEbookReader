@@ -21,39 +21,41 @@ class ViewActivity : AppCompatActivity() {
             val viewType: String = intent.getStringExtra("ViewType")
             if (!TextUtils.isEmpty(viewType)) {
                 if (viewType.equals("localFile")) {
+                    val selectedFile: Uri = Uri.parse(intent.getStringExtra("FileUri"))
                     //pdf
-                    if (intent.getType().equals("application/pdf")) {
-                        val selectedPdf: Uri = Uri.parse(intent.getStringExtra("FileUri"))
-                        pdfView.fromUri(selectedPdf)
-                            .password(null)
-                            .defaultPage(0)
-                            .enableSwipe(true)
-                            .enableDoubletap(true)
-                            .swipeHorizontal(true)
-                            .pageSnap(true)
-                            .autoSpacing(true)
-                            .pageFling(true)
-                            .onDraw { canvas, pageWidth, pageHeight, displayedPage ->
+                    if (selectedFile != null) {
+                        if (selectedFile.toString()?.endsWith(".pdf")) {
+                            pdfView.fromUri(selectedFile)
+                                .password(null)
+                                .defaultPage(0)
+                                .enableSwipe(true)
+                                .enableDoubletap(true)
+                                .swipeHorizontal(true)
+                                .pageSnap(true)
+                                .autoSpacing(true)
+                                .pageFling(true)
+                                .onDraw { canvas, pageWidth, pageHeight, displayedPage ->
 
-                            }.onDrawAll { canvas, pageWidth, pageHeight, displayedPage ->
+                                }.onDrawAll { canvas, pageWidth, pageHeight, displayedPage ->
 
-                            }.onPageChange { page, pageCount ->
+                                }.onPageChange { page, pageCount ->
 
-                            }.onPageError { page, t ->
-                                Toast.makeText(
-                                    this@ViewActivity,
-                                    "Error while opening page " + page,
-                                    Toast.LENGTH_SHORT
-                                )
-                                Log.d("ERROR", "" + t.localizedMessage)
-                            }.onTap { false }
-                            .onRender {
-                                page -> pdfView.fitToWidth(page)
-                            }.enableAnnotationRendering(true)
-                            .load()
-                    } //epub
-                    else if(intent.getType().equals("application/epub")){
+                                }.onPageError { page, t ->
+                                    Toast.makeText(
+                                        this@ViewActivity,
+                                        "Error while opening page $page",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                    Log.d("ERROR", t.localizedMessage.toString())
+                                }.onTap { false }
+                                .onRender { page ->
+                                    pdfView.fitToWidth(page)
+                                }.enableAnnotationRendering(true)
+                                .load()
+                        } //epub
+                        else if (selectedFile.toString()?.endsWith(".epub")) {
 
+                        }
                     }
                 }
             }

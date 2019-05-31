@@ -9,10 +9,10 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 
 
-class CommonMenuActivity : AppCompatActivity() {
+open class CommonMenuActivity : AppCompatActivity() {
 
     companion object{
-        private val PICK_PDF_CODE = 1000
+        const val PICK_LOCAL_FILE = 25519
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -24,18 +24,19 @@ class CommonMenuActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when(item?.itemId){
             R.id.open_local_book -> {
-                val pdfIntent = Intent(Intent.ACTION_GET_CONTENT)
-                pdfIntent.type = "application/pdf"
-                pdfIntent.addCategory(Intent.CATEGORY_OPENABLE)
-//                startActivityForResult(Intent.createChooser(pdfIntent, @string/pdf_picker_title))
-                startActivityForResult(Intent.createChooser(pdfIntent,"pdf ᠹᠠᠢᠯ ᠰᠣᠩᠭᠣᠬᠤ"),PICK_PDF_CODE)
+                val fileIntent = Intent(Intent.ACTION_GET_CONTENT)
+                fileIntent.addCategory(Intent.CATEGORY_OPENABLE)
+//                startActivityForResult(Intent.createChooser(pdfIntent, @string/file_picker_title))
+                startActivityForResult(Intent.createChooser(fileIntent,"ᠹᠠᠢᠯ ᠰᠣᠩᠭᠣᠬᠤ"), PICK_LOCAL_FILE)
 
                 true
             }
             R.id.search_local_books -> {
+
                 true
             }
             R.id.show_bookmarks -> {
+
                 true
             }
             R.id.help_feedback -> {
@@ -43,9 +44,11 @@ class CommonMenuActivity : AppCompatActivity() {
                 true
             }
             R.id.browse_internet_books -> {
+
                 true
             }
             R.id.browse_lan_books -> {
+
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -54,11 +57,11 @@ class CommonMenuActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == PICK_PDF_CODE && resultCode == Activity.RESULT_OK && data != null){
-            val selectedPdf: Uri? = data.data
+        if(requestCode == PICK_LOCAL_FILE && resultCode == Activity.RESULT_OK && data != null){
+            val selectedFile: Uri? = data.data
             val intent = Intent(this@CommonMenuActivity, ViewActivity::class.java)
             intent.putExtra("ViewType", "localFile")
-            intent.putExtra("FileUri", selectedPdf.toString())
+            intent.putExtra("FileUri", selectedFile.toString())
             startActivity(intent)
 
         }
