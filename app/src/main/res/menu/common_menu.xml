@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <item android:id="@+id/open_local_book"
+          android:title="@string/open_local_book" />
+    <item android:id="@+id/search_local_books"
+          android:title="@string/search_local_books" />
+    <item android:id="@+id/show_bookmarks"
+          android:title="@string/show_bookmarks" />
+    <item android:id="@+id/browse_lan_books"
+          android:title="@string/browse_lan_books" />
+    <item android:id="@+id/browse_internet_books"
+          android:title="@string/browse_internet_books" />
+    <item android:id="@+id/help_feedback"
+          android:title="@string/help_feedback" />
+
+    <!--app:showAsAction="ifRoom"-->
+</menu>

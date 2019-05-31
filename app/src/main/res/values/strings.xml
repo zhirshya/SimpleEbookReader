@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ᠤᠩᠰᠢᠭᠤᠷ᠋</string>
+    <string name="welcomestr">ᠮᠡᠬᠦᠰ ᠤᠩᠰᠢᠭᠤᠷ᠋ ᠲᠤ ᠲᠠᠪᠠᠲᠠᠢ ᠮᠣᠷᠢᠯᠠ</string>
+    <string name="open_local_book">ᠳᠣᠲᠣᠭᠠᠳᠤ ᠶᠢᠨ ᠨᠣᠮ ᠦᠵᠡᠬᠦ</string>
+    <string name="search_local_books"></string>
+    <string name="find_in_current_book"></string>
+    <string name="bookmark_current_page"></string>
+    <string name="show_bookmarks"></string>
+    <string name="browse_lan_books"></string>
+    <string name="browse_internet_books"></string>
+    <string name="help_feedback">ᠲᠤᠰᠠᠯᠠᠮᠵᠢ ᠵᠢᠴᠢ ᠰᠡᠳᠭᠢᠭᠳᠡᠯ</string>
+    <string name="pdf_picker_title">pdf ᠹᠠᠢᠯ ᠰᠣᠩᠭᠣᠬᠤ</string>
+</resources>
