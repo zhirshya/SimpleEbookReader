@@ -9,13 +9,13 @@ import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_view.*
+import kotlinx.android.synthetic.main.reading_pane.*
 
 class ViewActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_view)
+        setContentView(R.layout.reading_pane)
 
         if (intent != null) {
             val viewType: String = intent.getStringExtra("ViewType")

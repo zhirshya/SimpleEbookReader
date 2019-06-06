@@ -24,11 +24,11 @@ open class CommonMenuActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when(item?.itemId){
             R.id.open_local_book -> {
-                val fileIntent = Intent(Intent.ACTION_GET_CONTENT)
+//                val fileIntent = Intent(Intent.ACTION_GET_CONTENT,null, this, this::class.java)
+                val fileIntent = Intent(Intent.ACTION_GET_CONTENT,null, this, CommonMenuActivity::class.java)
                 fileIntent.addCategory(Intent.CATEGORY_OPENABLE)
 //                startActivityForResult(Intent.createChooser(pdfIntent, @string/file_picker_title))
                 startActivityForResult(Intent.createChooser(fileIntent,"ᠹᠠᠢᠯ ᠰᠣᠩᠭᠣᠬᠤ"), PICK_LOCAL_FILE)
-
                 true
             }
             R.id.search_local_books -> {
