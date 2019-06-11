@@ -7,9 +7,16 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.text.TextUtils
 import android.util.Log
+import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.reading_pane.*
+import java.io.BufferedReader
+import java.io.File
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.nio.charset.Charset
 
 class ViewActivity : AppCompatActivity() {
 
@@ -22,9 +29,10 @@ class ViewActivity : AppCompatActivity() {
             if (!TextUtils.isEmpty(viewType)) {
                 if (viewType.equals("localFile")) {
                     val selectedFile: Uri = Uri.parse(intent.getStringExtra("FileUri"))
+                    val ext: String = selectedFile.toString()?.substring(selectedFile.toString()?.lastIndexOf('.')+1)
                     //pdf
                     if (selectedFile != null) {
-                        if (selectedFile.toString()?.endsWith(".pdf")) {
+                        if (ext?.equals("pdf",true)) {
                             pdfView.fromUri(selectedFile)
                                 .password(null)
                                 .defaultPage(0)
@@ -53,8 +61,23 @@ class ViewActivity : AppCompatActivity() {
                                 }.enableAnnotationRendering(true)
                                 .load()
                         } //epub
-                        else if (selectedFile.toString()?.endsWith(".epub")) {
+                        else if (ext.equals("epub", true)) {
 
+                        }else if(ext.equals("txt",true)) {
+                            try {
+                                var inputStream: InputStream = getContentResolver().openInputStream(selectedFile)
+                                if(inputStream != null) {
+                                    val br : BufferedReader = BufferedReader(InputStreamReader(inputStream))
+                                    var content : String = ""
+                                    var line : String? = null
+                                        while ({line = br.readLine(); line}() != null){
+                                            content += line + '\n'
+                                        }
+                                    defaultView.setText(content)
+                                }
+                            }catch(e: Exception){
+                                defaultView.setText(e.toString())
+                            }
                         }
                     }
                 }

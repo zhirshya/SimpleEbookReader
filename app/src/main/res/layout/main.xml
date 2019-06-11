@@ -12,6 +12,7 @@
 
     <!-- search layout -->
 <LinearLayout
+    android:id="@+id/search_column"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:duplicateParentState="true"
@@ -48,6 +49,21 @@
 
     <!-- list of local books with thumbnails and titles -->
     <!-- <include layout="@layout/main_panel" /> -->
+<!--
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="1dp">
+    <FrameLayout
+        android:id="@+id/book_fragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</RelativeLayout>
+-->
 
 </LinearLayout>
 <!-- </merge> -->

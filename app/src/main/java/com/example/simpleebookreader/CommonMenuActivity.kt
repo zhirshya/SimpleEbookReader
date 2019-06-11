@@ -18,17 +18,23 @@ open class CommonMenuActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.common_menu, menu)
-        return true
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when(item?.itemId){
             R.id.open_local_book -> {
+                val fileIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
 //                val fileIntent = Intent(Intent.ACTION_GET_CONTENT,null, this, this::class.java)
-                val fileIntent = Intent(Intent.ACTION_GET_CONTENT,null, this, CommonMenuActivity::class.java)
+//                val fileIntent = Intent(Intent.ACTION_GET_CONTENT,null, this, CommonMenuActivity::class.java)
+                //
                 fileIntent.addCategory(Intent.CATEGORY_OPENABLE)
+                fileIntent.setType("*/*")
 //                startActivityForResult(Intent.createChooser(pdfIntent, @string/file_picker_title))
+//                super.onActivityResult(PICK_LOCAL_FILE, Activity.RESULT_OK, fileIntent)
                 startActivityForResult(Intent.createChooser(fileIntent,"ᠹᠠᠢᠯ ᠰᠣᠩᠭᠣᠬᠤ"), PICK_LOCAL_FILE)
+//                this.openFile(type)
+//                startActivity(Intent.createChooser(fileIntent,"ᠹᠠᠢᠯ ᠰᠣᠩᠭᠣᠬᠤ"), PICK_LOCAL_FILE) //type mismatch: required bundle, found int
                 true
             }
             R.id.search_local_books -> {
@@ -55,10 +61,17 @@ open class CommonMenuActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == PICK_LOCAL_FILE && resultCode == Activity.RESULT_OK && data != null){
-            val selectedFile: Uri? = data.data
+/*
+    fun openFile(requestCode: Int)
+    {
+        //browser open
+    }
+*/
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?){
+        super.onActivityResult(requestCode, resultCode, resultData)
+        if(requestCode == PICK_LOCAL_FILE /*&& resultCode == Activity.RESULT_OK && resultData != null*/){
+            val selectedFile: Uri? = resultData?.data
             val intent = Intent(this@CommonMenuActivity, ViewActivity::class.java)
             intent.putExtra("ViewType", "localFile")
             intent.putExtra("FileUri", selectedFile.toString())
