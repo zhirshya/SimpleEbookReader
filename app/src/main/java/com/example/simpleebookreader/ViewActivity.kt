@@ -2,23 +2,20 @@ package com.example.simpleebookreader
 
 import android.net.Uri
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.text.TextUtils
 import android.util.Log
-import android.widget.ListView
-import android.widget.TextView
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.reading_pane.*
 import java.io.BufferedReader
-import java.io.File
 import java.io.InputStream
 import java.io.InputStreamReader
-import java.nio.charset.Charset
+import kotlin.math.*
 
-class ViewActivity : AppCompatActivity() {
+//class ViewActivity : AppCompatActivity(), GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener, View.OnTouchListener
+class ViewActivity : AppCompatActivity(), View.OnTouchListener
+{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,52 +29,52 @@ class ViewActivity : AppCompatActivity() {
                     val ext: String = selectedFile.toString()?.substring(selectedFile.toString()?.lastIndexOf('.')+1)
                     //pdf
                     if (selectedFile != null) {
-                        if (ext?.equals("pdf",true)) {
-                            pdfView.fromUri(selectedFile)
-                                .password(null)
-                                .defaultPage(0)
-                                .enableSwipe(true)
-                                .enableDoubletap(true)
-                                .swipeHorizontal(true)
-                                .pageSnap(true)
-                                .autoSpacing(true)
-                                .pageFling(true)
-                                .onDraw { canvas, pageWidth, pageHeight, displayedPage ->
+                        when {
+                            ext?.equals("pdf",true) ->
+                                pdfView.fromUri(selectedFile)
+                                    .password(null)
+                                    .defaultPage(0)
+                                    .enableSwipe(true)
+                                    .enableDoubletap(true)
+                                    .swipeHorizontal(true)
+                                    .pageSnap(true)
+                                    .autoSpacing(true)
+                                    .pageFling(true)
+                                    .onDraw { canvas, pageWidth, pageHeight, displayedPage ->
 
-                                }.onDrawAll { canvas, pageWidth, pageHeight, displayedPage ->
+                                    }.onDrawAll { canvas, pageWidth, pageHeight, displayedPage ->
 
-                                }.onPageChange { page, pageCount ->
+                                    }.onPageChange { page, pageCount ->
 
-                                }.onPageError { page, t ->
-                                    Toast.makeText(
-                                        this@ViewActivity,
-                                        "Error while opening page $page",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                    Log.d("ERROR", t.localizedMessage.toString())
-                                }.onTap { false }
-                                .onRender { page ->
-                                    pdfView.fitToWidth(page)
-                                }.enableAnnotationRendering(true)
-                                .load()
-                        } //epub
-                        else if (ext.equals("epub", true)) {
-
-                        }else if(ext.equals("txt",true)) {
-                            try {
-                                var inputStream: InputStream = getContentResolver().openInputStream(selectedFile)
-                                if(inputStream != null) {
-                                    val br : BufferedReader = BufferedReader(InputStreamReader(inputStream))
-                                    var content : String = ""
-                                    var line : String? = null
-                                        while ({line = br.readLine(); line}() != null){
+                                    }.onPageError { page, t ->
+                                        Toast.makeText(
+                                            this@ViewActivity,
+                                            "Error while opening page $page",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                        Log.d("ERROR", t.localizedMessage.toString())
+                                    }.onTap { false }
+                                    .onRender { page ->
+                                        pdfView.fitToWidth(page)
+                                    }.enableAnnotationRendering(true)
+                                    .load()
+                            ext.equals("epub", true) -> {}
+                            ext.equals("txt",true) ->
+                                try {
+                                    var inputStream: InputStream = getContentResolver().openInputStream(selectedFile)
+                                    if (inputStream != null) {
+                                        val br: BufferedReader = BufferedReader(InputStreamReader(inputStream))
+                                        var content: String = ""
+                                        var line: String? = null
+                                        while ({ line = br.readLine(); line }() != null) {
                                             content += line + '\n'
                                         }
-                                    defaultView.setText(content)
+                                        defaultView.setText(content)
+                                    }
+                                } catch (e: Exception) {
+                                    defaultView.setText("Sorry, an internal error occurred.")
                                 }
-                            }catch(e: Exception){
-                                defaultView.setText(e.toString())
-                            }
+                            else -> defaultView.setText("Sorry, file type is unclear, unsure how to open the selected file.")
                         }
                     }
                 }
@@ -104,5 +101,90 @@ class ViewActivity : AppCompatActivity() {
             else -> return super.onOptionsItemSelected(item)
         }
     }
+/*
+    override fun onDown(event: MotionEvent): Boolean{
+        return true
+    }
 
+    override fun onFling(event1: MotionEvent, event2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+        return true
+    }
+
+    override fun onLongPress(e: MotionEvent?) {
+
+    }
+
+    override fun onScroll(event1: MotionEvent, event2: MotionEvent, distanceX: Float, distanceY: Float): Boolean{
+        return true
+    }
+
+    override fun onShowPress(e: MotionEvent?) {
+
+    }
+
+    override fun onSingleTapUp(e: MotionEvent?): Boolean {
+        return true
+    }
+
+    override fun onDoubleTap(e: MotionEvent?): Boolean {
+        return true
+    }
+
+    override fun onDoubleTapEvent(e: MotionEvent?): Boolean {
+        return true
+    }
+
+    override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+        return true
+    }
+*/
+
+    /*
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        mScaleGestureDetector?.onTouchEvent(event)
+        return super.onTouchEvent(event)
+    }
+    */
+
+/*
+//    var gestureDetector: GestureDetectorCompat? = null
+    private var mScaleGestureDetector: ScaleGestureDetector? = null
+    private var mScaleFactor: Float = 1.0f
+
+//    https://github.com/pftbest/zoom-example/blob/master/src/main/java/org/tmpfs/zoomtest/ZoomFrame.kt
+    private inner class ScaleListener: ScaleGestureDetector.SimpleOnScaleGestureListener() {
+*/
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        if(event.getPointerCount() == 2) {
+            var action: Int = event.getAction()
+            var pureAction: Int = action and MotionEvent.ACTION_MASK
+            if (pureAction == MotionEvent.ACTION_POINTER_DOWN) {
+                mBaseDist = getDistance(event)
+                mBaseRatio = mRatio
+            } else {
+                var delta: Float = (getDistance(event) - mBaseDist) / STEP
+                var multi: Float = 2.toFloat().pow(delta)
+                mRatio = Math.min(1024.0f, Math.max(0.1f, mBaseRatio * multi))
+                defaultView.setTextSize(mRatio + 13)
+            }
+        }
+        return true
+    }
+
+    private fun getDistance(event: MotionEvent): Int {
+        /*var dx: Int = (event.getX(0) - event.getX(1)).toInt()
+        var dy: Int = (event.getY(0) - event.getY(1)).toInt()
+        return sqrt((dx*dx + dy*dy).toDouble()).toInt()*/
+        return sqrt((event.getX(0) - event.getX(1)).pow(2) + (event.getY(0) - event.getY(1)).pow(2)).toInt()
+    }
+
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        return false
+    }
+
+    private var mBaseDist: Int = 0
+    private var mBaseRatio: Float = 1.0f
+    private var mRatio: Float = 1.0f
+    private val STEP: Float = 200.0f
 }
