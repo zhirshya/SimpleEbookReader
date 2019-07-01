@@ -1,6 +1,5 @@
-package com.example.simpleebookreader
+package com.example.TinyDroidReader
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.view.Menu

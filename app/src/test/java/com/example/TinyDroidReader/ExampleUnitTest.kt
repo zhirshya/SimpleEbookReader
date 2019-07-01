@@ -1,4 +1,4 @@
-package com.example.simpleebookreader
+package com.example.TinyDroidReader
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.example.simpleebookreader
+package com.example.TinyDroidReader
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

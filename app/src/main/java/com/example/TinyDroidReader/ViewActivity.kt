@@ -1,4 +1,4 @@
-package com.example.simpleebookreader
+package com.example.TinyDroidReader
 
 import android.net.Uri
 import android.os.Bundle
@@ -70,6 +70,7 @@ class ViewActivity : AppCompatActivity(), View.OnTouchListener
                                             content += line + '\n'
                                         }
                                         defaultView.setText(content)
+                                        defaultView.setTextSize(mRatio + 13)
                                     }
                                 } catch (e: Exception) {
                                     defaultView.setText("Sorry, an internal error occurred.")

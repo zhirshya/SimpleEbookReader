@@ -1,6 +1,5 @@
-package com.example.simpleebookreader
+package com.example.TinyDroidReader
 
-import android.Manifest
 import android.os.Bundle
 /*import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
