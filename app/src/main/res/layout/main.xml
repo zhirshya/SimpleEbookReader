@@ -39,10 +39,11 @@
 
     <ImageView
         android:id="@+id/icon"
+        android:contentDescription="search"
         android:layout_width="32dip"
         android:layout_height="32dip"
         android:layout_gravity="center_vertical"
-        android:layout_marginRight="8dip"
+        android:layout_marginEnd="8dip"
         android:duplicateParentState="true"/>
 
 </LinearLayout>

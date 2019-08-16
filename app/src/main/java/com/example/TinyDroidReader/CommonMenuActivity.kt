@@ -5,8 +5,8 @@ import android.net.Uri
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-
 
 open class CommonMenuActivity : AppCompatActivity() {
 
@@ -28,10 +28,10 @@ open class CommonMenuActivity : AppCompatActivity() {
 //                val fileIntent = Intent(Intent.ACTION_GET_CONTENT,null, this, CommonMenuActivity::class.java)
                 //
                 fileIntent.addCategory(Intent.CATEGORY_OPENABLE)
-                fileIntent.setType("*/*")
+                fileIntent.type = "*/*"
 //                startActivityForResult(Intent.createChooser(pdfIntent, @string/file_picker_title))
 //                super.onActivityResult(PICK_LOCAL_FILE, Activity.RESULT_OK, fileIntent)
-                startActivityForResult(Intent.createChooser(fileIntent,"ᠹᠠᠢᠯ ᠰᠣᠩᠭᠣᠬᠤ"), PICK_LOCAL_FILE)
+                startActivityForResult(Intent.createChooser(fileIntent,getString(R.string.choose_file)), PICK_LOCAL_FILE)
 //                this.openFile(type)
 //                startActivity(Intent.createChooser(fileIntent,"ᠹᠠᠢᠯ ᠰᠣᠩᠭᠣᠬᠤ"), PICK_LOCAL_FILE) //type mismatch: required bundle, found int
                 true
@@ -79,7 +79,7 @@ open class CommonMenuActivity : AppCompatActivity() {
         }
     }
 
-    fun showHelp(){
-
+    private fun showHelp(){
+        Toast.makeText(this, "KnowHow+WorkHard+GrindItOut!", Toast.LENGTH_SHORT).show()
     }
 }

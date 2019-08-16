@@ -24,64 +24,81 @@ class ViewActivity : AppCompatActivity(), View.OnTouchListener
         if (intent != null) {
             val viewType: String = intent.getStringExtra("ViewType")
             if (!TextUtils.isEmpty(viewType)) {
-                if (viewType.equals("localFile")) {
-                    val selectedFile: Uri = Uri.parse(intent.getStringExtra("FileUri"))
-                    val ext: String = selectedFile.toString()?.substring(selectedFile.toString()?.lastIndexOf('.')+1)
-                    //pdf
+                if (viewType == "localFile") {
+                    val selectedFile: Uri? = Uri.parse(intent.getStringExtra("FileUri"))
                     if (selectedFile != null) {
+                        val ext: String? = selectedFile.toString().substring(selectedFile.toString().lastIndexOf('.')+1)
                         when {
-                            ext?.equals("pdf",true) ->
+                            //pdf
+                            ext.equals("pdf", true) ->
                                 pdfView.fromUri(selectedFile)
-                                    .password(null)
-                                    .defaultPage(0)
-                                    .enableSwipe(true)
-                                    .enableDoubletap(true)
-                                    .swipeHorizontal(true)
-                                    .pageSnap(true)
-                                    .autoSpacing(true)
-                                    .pageFling(true)
-                                    .onDraw { canvas, pageWidth, pageHeight, displayedPage ->
+                                        .password(null)
+                                        .defaultPage(0)
+                                        .enableSwipe(true)
+                                        .enableDoubletap(true)
+                                        .swipeHorizontal(true)
+                                        .pageSnap(true)
+                                        .autoSpacing(true)
+                                        .pageFling(true)
+                                        .onDraw { canvas, pageWidth, pageHeight, displayedPage ->
 
-                                    }.onDrawAll { canvas, pageWidth, pageHeight, displayedPage ->
+                                        }.onDrawAll { canvas, pageWidth, pageHeight, displayedPage ->
 
-                                    }.onPageChange { page, pageCount ->
+                                        }.onPageChange { page, pageCount ->
 
-                                    }.onPageError { page, t ->
-                                        Toast.makeText(
-                                            this@ViewActivity,
-                                            "Error while opening page $page",
-                                            Toast.LENGTH_SHORT
-                                        )
-                                        Log.d("ERROR", t.localizedMessage.toString())
-                                    }.onTap { false }
-                                    .onRender { page ->
-                                        pdfView.fitToWidth(page)
-                                    }.enableAnnotationRendering(true)
-                                    .load()
-                            ext.equals("epub", true) -> {}
-                            ext.equals("txt",true) ->
+                                        }.onPageError { page, t ->
+                                            Toast.makeText(
+                                                    this@ViewActivity,
+                                                    "Error while opening page $page",
+                                                    Toast.LENGTH_SHORT
+                                            ).show()
+                                            Log.d("ERROR", t.localizedMessage.toString())
+                                        }.onTap { false }
+                                        .onRender { page ->
+                                            pdfView.fitToWidth(page)
+                                        }.enableAnnotationRendering(true)
+                                        .load()
+                            //epub
+                            ext.equals("epub", true) -> {
+
+                            }
+                            //txt
+                            ext.equals("txt", true) ->
                                 try {
-                                    var inputStream: InputStream = getContentResolver().openInputStream(selectedFile)
+                                    val inputStream: InputStream? = contentResolver.openInputStream(selectedFile)
                                     if (inputStream != null) {
-                                        val br: BufferedReader = BufferedReader(InputStreamReader(inputStream))
-                                        var content: String = ""
+                                        val br = BufferedReader(InputStreamReader(inputStream))
+                                        var content = ""
                                         var line: String? = null
                                         while ({ line = br.readLine(); line }() != null) {
                                             content += line + '\n'
                                         }
-                                        defaultView.setText(content)
-                                        defaultView.setTextSize(mRatio + 13)
+                                        defaultView.text = content
+                                        defaultView.textSize = mRatio + 13
                                     }
                                 } catch (e: Exception) {
-                                    defaultView.setText("Sorry, an internal error occurred.")
+//                                    https://stackoverflow.com/questions/48181751/get-name-of-current-function-in-kotlin
+                                    val func = object {}.javaClass.enclosingMethod?.name
+                                    Toast.makeText(this, "$func", Toast.LENGTH_SHORT).show()
+                                    defaultView.text = e.message
                                 }
-                            else -> defaultView.setText("Sorry, file type is unclear, unsure how to open the selected file.")
+                            else -> defaultView.text = getString(R.string.unsupported_file_type) //https://stackoverflow.com/questions/44871481/how-can-i-access-values-from-strings-xml-in-kotlin-android
+                            /*
+                            https://stackoverflow.com/questions/4253328/getstring-outside-of-a-context-or-activity/8765766
+                            Resources.getSystem().getString(android.R.string.somecommonstuff) everywhere in your application, even in static constants declarations. Unfortunately, it supports the system resources only.
+                            The system resources belong to Android on the device. strings.xml belong to your application only. Look for stackoverflow.com/a/4391811/715269 solution
+                             */
+
                         }
                     }
                 }
             }
         }
     }
+
+/*
+unnecessary? because already defined in
+app/src/main/java/com/example/TinyDroidReader/CommonMenuActivity.kt
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
@@ -102,6 +119,8 @@ class ViewActivity : AppCompatActivity(), View.OnTouchListener
             else -> return super.onOptionsItemSelected(item)
         }
     }
+*/
+
 /*
     override fun onDown(event: MotionEvent): Boolean{
         return true
@@ -157,17 +176,17 @@ class ViewActivity : AppCompatActivity(), View.OnTouchListener
 */
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if(event.getPointerCount() == 2) {
-            var action: Int = event.getAction()
-            var pureAction: Int = action and MotionEvent.ACTION_MASK
+        if(event.pointerCount == 2) {
+            val action: Int = event.action
+            val pureAction: Int = action and MotionEvent.ACTION_MASK
             if (pureAction == MotionEvent.ACTION_POINTER_DOWN) {
                 mBaseDist = getDistance(event)
                 mBaseRatio = mRatio
             } else {
                 var delta: Float = (getDistance(event) - mBaseDist) / STEP
                 var multi: Float = 2.toFloat().pow(delta)
-                mRatio = Math.min(1024.0f, Math.max(0.1f, mBaseRatio * multi))
-                defaultView.setTextSize(mRatio + 13)
+                mRatio = min(1024.0f, max(0.1f, mBaseRatio * multi))
+                defaultView.textSize = mRatio + 13
             }
         }
         return true

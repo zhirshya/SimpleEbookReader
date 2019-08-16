@@ -10,4 +10,6 @@
     <string name="browse_internet_books">browse internet(book)</string>
     <string name="help_feedback">ᠲᠤᠰᠠᠯᠠᠮᠵᠢ ᠵᠢᠴᠢ ᠰᠡᠳᠭᠢᠭᠳᠡᠯ</string>
     <string name="file_picker_title">ᠹᠠᠢᠯ ᠰᠣᠩᠭᠣᠬᠤ</string>
+    <string name="unsupported_file_type">Sorry, file type is unclear, unsure how to open the selected file.</string>
+    <string name="choose_file">ᠹᠠᠢᠯ ᠰᠣᠩᠭᠣᠬᠤ</string>
 </resources>

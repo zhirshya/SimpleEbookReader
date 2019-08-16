@@ -16,7 +16,8 @@ class MainActivity : CommonMenuActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
 
-        /*Dexter.withActivity(this)
+        /* runtime permission configurator?
+        Dexter.withActivity(this)
             .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)
             .withListener(object:BaseMultiplePermissionsListener(){
             override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
